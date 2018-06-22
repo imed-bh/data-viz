@@ -1,17 +1,25 @@
 package dataviz.desktop;
 
-import dataviz.desktop.container.view.MainFrame;
+import dataviz.desktop.view.container.MainFrame;
+import dataviz.desktop.view.struct.StructView;
+import dataviz.desktop.view.struct.StructViewFactory;
 import dataviz.struct.Struct;
+import dataviz.struct.array.Array;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Optional;
 
 public class Application {
 
+    private final StructViewFactory structViewFactory;
+    private final MainFrame mainFrame;
     private Struct<?> struct;
 
-    public Application() {
+    public Application(StructViewFactory structViewFactory) {
+        this.structViewFactory = structViewFactory;
+        mainFrame = new MainFrame();
     }
 
     public void start() {
@@ -23,13 +31,23 @@ public class Application {
     }
 
     private void setStruct(Struct<?> struct) {
-
+        this.struct = struct;
+        var structView = structViewFactory.get(struct);
+        structView.ifPresent(v -> mainFrame.setContentView(v));
     }
 
     private void showMainFrame() {
-        var mainFrame = new MainFrame();
+        if (mainFrame.isVisible()) return;
+
         mainFrame.addWindowListener(new MainFrameListener());
         mainFrame.setVisible(true);
+
+        // TODO remove me
+        var array = new Integer[10];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i;
+        }
+        setStruct(new Array<>(array));
     }
 
     private class MainFrameListener extends WindowAdapter {

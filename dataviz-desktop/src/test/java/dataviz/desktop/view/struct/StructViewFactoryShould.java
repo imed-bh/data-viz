@@ -1,9 +1,10 @@
-package dataviz.desktop.struct.view;
+package dataviz.desktop.view.struct;
 
 import dataviz.struct.array.Array;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -40,5 +41,8 @@ public class StructViewFactoryShould {
         return new Array<>(new Integer[10]);
     }
 
-    private class TestView implements StructView {}
+    private class TestView implements StructView {
+        @Override
+        public void paint(Graphics2D g) {}
+    }
 }

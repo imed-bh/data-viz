@@ -1,4 +1,4 @@
-package dataviz.desktop.struct.view;
+package dataviz.desktop.view.struct;
 
 import dataviz.struct.Struct;
 
